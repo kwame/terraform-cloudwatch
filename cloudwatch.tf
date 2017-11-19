@@ -94,7 +94,7 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed_system" {
   alarm_description         = "This metric monitors StatusCheckFailed_System"
   actions_enabled           = true
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
-  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high CPU usage"
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has check failed system"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
@@ -113,7 +113,7 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed_instance" {
   alarm_description         = "This metric monitors StatusCheckFailed_Instance"
   actions_enabled           = true
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
-  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high CPU usage"
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has check failed instance"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
