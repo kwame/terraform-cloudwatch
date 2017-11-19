@@ -2,7 +2,7 @@
 yum-config-manager --enable epel
 yum -y update 
 sudo -u ec2-user pip install --upgrade --user awscli
-yum -y install git screen httpd tmux awslogs perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https irssi
+yum -y install git screen httpd tmux awslogs perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https irssi httpd
 hostname informatux-test.local
 curl -o /opt/CloudWatchMonitoringScripts-1.2.1.zip http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
 unzip /opt/CloudWatchMonitoringScripts-1.2.1.zip -d /opt/
