@@ -81,7 +81,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
 }
 
 # Metric Alarm for StatusCheckFailed_System
-resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
+resource "aws_cloudwatch_metric_alarm" "status_check_failed_system" {
   count = "1"
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.high-cpu-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
@@ -100,7 +100,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
 }
 
 # Metric Alarm for StatusCheckFailed_Instance
-resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
+resource "aws_cloudwatch_metric_alarm" "status_check_failed_instance" {
   count = "1"
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.high-cpu-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
