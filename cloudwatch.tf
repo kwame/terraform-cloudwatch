@@ -79,3 +79,41 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
+
+# Metric Alarm for StatusCheckFailed_System
+resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.high-cpu-alarm"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "StatusCheckFailed_System"
+  namespace                 = "AWS/EC2"
+  period                    = "300"
+  statistic                 = "Average"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors StatusCheckFailed_System"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high CPU usage"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+}
+
+# Metric Alarm for StatusCheckFailed_Instance
+resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.high-cpu-alarm"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "StatusCheckFailed_Instance"
+  namespace                 = "AWS/EC2"
+  period                    = "300"
+  statistic                 = "Average"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors StatusCheckFailed_Instance"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high CPU usage"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+}
