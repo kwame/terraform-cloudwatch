@@ -47,8 +47,8 @@ resource "aws_cloudwatch_metric_alarm" "disk_usage_ec2_cloudwatch_test" {
   count = 1
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.disk-usage-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
-  evaluation_periods        = "5"
-  metric_name               = "DiskSpaceUsed"
+  evaluation_periods        = "1"
+  metric_name               = "DiskSpaceUtilization"
   namespace                 = "System/Linux"
   period                    = "60"
   statistic                 = "Maximum"
