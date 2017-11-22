@@ -47,7 +47,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_usage_ec2_cloudwatch_test" {
   count = 1
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.disk-usage-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
-  evaluation_periods        = "5"
+  evaluation_periods        = "1"
   metric_name               = "DiskSpaceUsed"
   namespace                 = "System/Linux"
   period                    = "60"
@@ -58,7 +58,12 @@ resource "aws_cloudwatch_metric_alarm" "disk_usage_ec2_cloudwatch_test" {
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
   alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} low disk space on instance"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
-  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+#  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+  dimensions {
+  InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}"
+  Filesystem = "/dev/xvda1"
+  MountPath = "/"
+ }
 }
 
 # 3- Metric Alarm for StatusCheckFailed_System
