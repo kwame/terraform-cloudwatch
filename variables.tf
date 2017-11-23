@@ -53,7 +53,7 @@ variable "environment" {
 }
 
 variable "ec2_cloudwatch_instance_size" {
-  default = "t2.micro"
+  default = "t2.nano"
 }
 
 #Ubuntu 16.04
