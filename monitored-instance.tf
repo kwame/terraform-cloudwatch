@@ -19,6 +19,12 @@ resource "aws_instance" "ec2_cloudwatch_test" {
     }
 }
 
+module "cloudwatch" {
+  source = "./modules/cloudwatch/"
+  cpu_utilization_check = "${module.aws_cloudwatch_metric_alarm.cpu_utilization_check}"
+}
+
+
  resource "aws_security_group" "ec2_cloudwatch_test" {
    name   = "${var.cluster_name}-ec2-cloudwatch-test-SG"
    vpc_id = "${module.vpc.vpc_id}"
