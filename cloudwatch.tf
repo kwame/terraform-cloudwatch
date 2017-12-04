@@ -42,10 +42,10 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_check" {
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
 
-# 2- Alert for Disk usage 
-resource "aws_cloudwatch_metric_alarm" "disk_usage_ec2_cloudwatch_test" {
+# 2- Alert for Disk utilization  
+resource "aws_cloudwatch_metric_alarm" "disk_space_utilization_ec2_cloudwatch_test" {
   count = 1
-  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.disk-usage-alarm"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.disk-space-utilization-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "2"
   metric_name               = "DiskSpaceUtilization"
@@ -53,7 +53,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_usage_ec2_cloudwatch_test" {
   period                    = "60"
   statistic                 = "Maximum"
   threshold                 = "80"
-  alarm_description         = "This metric checks disk space usage"
+  alarm_description         = "This metric checks disk space utilization"
   actions_enabled           = true
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
   alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} low disk space on instance"
@@ -100,6 +100,25 @@ resource "aws_cloudwatch_metric_alarm" "status_check_failed_instance" {
   actions_enabled           = true
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
   alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has check failed instance"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+}
+
+# 5- Metric alarm for MemoryUtilization 
+resource "aws_cloudwatch_metric_alarm" "memory_utilization_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.memory_utilization_ec2_cloudwatch_test"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "MemoryUtilization"
+  namespace                 = "System/Linux"
+  period                    = "60"
+  statistic                 = "Average"
+  threshold                 = "40"
+  alarm_description         = "This metric monitors MemoryUtilization"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high memory usage"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
