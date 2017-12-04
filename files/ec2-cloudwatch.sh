@@ -137,7 +137,6 @@ log_stream_name = {instance_id}
 initial_position = start_of_file
 log_group_name = /var/log/messages
 
-
 [/var/log/secure]
 datetime_format = %b %d %H:%M:%S
 file = /var/log/secure
@@ -145,7 +144,6 @@ buffer_duration = 5000
 log_stream_name = {instance_id}
 initial_position = start_of_file
 log_group_name = /var/log/secure
-[root@informatux-test ~]#
 
 [/var/log/httpd/access_log]
 datetime_format = %b %d %H:%M:%S
@@ -153,6 +151,5 @@ file = /var/log/httpd/access_log
 buffer_duration = 5000
 log_stream_name = {instance_id}
 initial_position = start_of_file
-log_group_name = /var/log/httpd/access_log
-[root@informatux-test ~]# " > /etc/awslogs/awslogs.conf
+log_group_name = /var/log/httpd/access_log " > /etc/awslogs/awslogs.conf
 /etc/init.d/awslogs restart 
