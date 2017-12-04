@@ -60,3 +60,28 @@ resource "aws_iam_role_policy" "servers-cloudwatchLogs-policy" {
 }
 EOF
 }
+
+
+resource "aws_iam_role_policy" "servers-localserverLogs-policy" {
+  name = "servers-localserverLogs-policy"
+  role = "${aws_iam_role.ec2-cloudwatch-test-role.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+    ],
+      "Resource": [
+        "arn:aws:logs:*:*:*"
+    ]
+    }
+  ]
+}
+EOF
+}

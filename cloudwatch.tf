@@ -122,3 +122,23 @@ resource "aws_cloudwatch_metric_alarm" "memory_utilization_ec2_cloudwatch_test" 
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
+
+
+# 6- Metric alarm for SwapUtilization 
+resource "aws_cloudwatch_metric_alarm" "swap_utilization_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.swap_utilization_ec2_cloudwatch_test"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "SwapUtilization"
+  namespace                 = "System/Linux"
+  period                    = "60"
+  statistic                 = "Average"
+  threshold                 = "40"
+  alarm_description         = "This metric monitors SwapUtilization"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has high swap usage"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+}
