@@ -7,7 +7,7 @@ hostname informatux-test.local
 curl -o /opt/CloudWatchMonitoringScripts-1.2.1.zip http://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.1.zip -O
 unzip /opt/CloudWatchMonitoringScripts-1.2.1.zip -d /opt/
 cd /opt/aws-scripts-mon
-echo "*/1 * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --swap-used --mem-util --swap-util --mem-used --disk-space-used --disk-space-util --disk-path=/ --from-cron" >> /etc/crontab
+echo "*/1 * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --swap-util --swap-used --mem-util --mem-avail --mem-used --disk-space-used --disk-space-util --disk-path=/ --from-cron" >> /etc/crontab
 /etc/init.d/awslogs restart
 chkconfig --level 345 awslogs on
 echo "#
