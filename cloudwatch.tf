@@ -143,7 +143,7 @@ resource "aws_cloudwatch_metric_alarm" "swap_utilization_ec2_cloudwatch_test" {
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
 
-# 6- Metric alarm for MemoryAvailable 
+# 7- Metric alarm for MemoryAvailable 
 resource "aws_cloudwatch_metric_alarm" "memory_available_ec2_cloudwatch_test" {
   count = "1"
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.memory_available_ec2_cloudwatch_test"
