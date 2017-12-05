@@ -147,7 +147,7 @@ resource "aws_cloudwatch_metric_alarm" "swap_utilization_ec2_cloudwatch_test" {
 resource "aws_cloudwatch_metric_alarm" "memory_available_ec2_cloudwatch_test" {
   count = "1"
   alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.memory_available_ec2_cloudwatch_test"
-  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  comparison_operator       = "LessThanOrEqualToThreshold"
   evaluation_periods        = "2"
   metric_name               = "MemoryAvailable"
   namespace                 = "System/Linux"
@@ -158,6 +158,26 @@ resource "aws_cloudwatch_metric_alarm" "memory_available_ec2_cloudwatch_test" {
   actions_enabled           = true
   alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
   alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has available memory"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+}
+
+
+# 8- Metric alarm for MemoryUsed 
+resource "aws_cloudwatch_metric_alarm" "memory_used_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.memory_used_ec2_cloudwatch_test"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "MemoryUsed"
+  namespace                 = "System/Linux"
+  period                    = "60"
+  statistic                 = "Average"
+  threshold                 = "3500"
+  alarm_description         = "This metric monitors MemoryUsed"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has used memory"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
 }
