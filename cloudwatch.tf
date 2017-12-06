@@ -180,4 +180,23 @@ resource "aws_cloudwatch_metric_alarm" "memory_used_ec2_cloudwatch_test" {
   alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has used memory"
   ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
   dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
-}
+} 
+
+# 9- Metric alarm for SwapUsed 
+resource "aws_cloudwatch_metric_alarm" "swap_used_ec2_cloudwatch_test" {
+  count = "1"
+  alarm_name                = "${var.environment}.ec2_cloudwatch_test.${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}.swap_used_ec2_cloudwatch_test"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "2"
+  metric_name               = "SwapUsed"
+  namespace                 = "System/Linux"
+  period                    = "60"
+  statistic                 = "Average"
+  threshold                 = "2500"
+  alarm_description         = "This metric monitors SwapUsed"
+  actions_enabled           = true
+  alarm_actions             = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  alarm_description         = "${var.environment}.ec2_cloudwatch_test id: ${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)} has swap used"
+  ok_actions                = ["${aws_sns_topic.non_critical_alerts.arn}"]
+  dimensions {InstanceId = "${element(aws_instance.ec2_cloudwatch_test.*.id, count.index)}" }
+} 
